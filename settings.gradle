@@ -1,0 +1,5 @@
+rootProject.name = 'for lab'
+include 'blocknot'
+include 'store'
+include 'vpn'
+
