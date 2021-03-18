@@ -4,7 +4,7 @@ USER root
 
 
 COPY --chown=gradle:gradle . /git/for_lab
-WORKDIR . /git/for_lab
+WORKDIR  /git/for_lab
 RUN gradle build --stacktrace
 
 FROM adoptopenjdk:11-jre-hotspot

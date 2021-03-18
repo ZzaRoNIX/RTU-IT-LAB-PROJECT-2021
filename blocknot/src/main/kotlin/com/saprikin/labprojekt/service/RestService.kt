@@ -3,7 +3,7 @@ package com.saprikin.labprojekt.service
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.saprikin.labprojekt.config.RestTemplateConfig
+
 import com.saprikin.labprojekt.dto.Dto
 import org.springframework.http.*
 import org.springframework.stereotype.Service
@@ -23,7 +23,7 @@ class RestService(private val restTemplate: RestTemplate) {
         headers["path"] = payLoadStr
         val requestBody: HttpEntity<Dto> = HttpEntity<Dto>(dto, headers)
         val responseEntity: ResponseEntity<Dto> = restTemplate.exchange(
-            "http://localhost:8082/buy",
+            "http://localhost:8082/store/buy",
             HttpMethod.POST,
             requestBody,
             Dto::class.java

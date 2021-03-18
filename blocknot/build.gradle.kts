@@ -17,7 +17,7 @@ repositories {
 }
 
 dependencies {
-    implementation ("com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.7.0")
+
     implementation ("com.google.code.gson:gson:2.7")
     implementation ("org.springdoc:springdoc-openapi-ui:1.5.2")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -26,7 +26,6 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     runtimeOnly("org.postgresql:postgresql")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
 tasks.withType<KotlinCompile> {
@@ -36,6 +35,4 @@ tasks.withType<KotlinCompile> {
     }
 }
 
-tasks.withType<Test> {
-    useJUnitPlatform()
-}
+

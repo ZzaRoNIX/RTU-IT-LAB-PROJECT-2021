@@ -24,7 +24,7 @@ class MainController @Autowired constructor(
 ) {
 
 
-    @PostMapping("/addUser")
+    @PostMapping("/addMember")
     fun addUser(@RequestParam name: String?): ResponseEntity<String?>? {
         return if (!memberRepository.existsByMemberName(name)) {
             memberRepository.save(Member(name))
@@ -34,19 +34,11 @@ class MainController @Autowired constructor(
         }
     }
 
-    @GetMapping("/getUser")
-    fun getUser(@RequestParam id: Int): ResponseEntity<String?>? {
-        val gson = GsonBuilder().create()
-        val payloadStr = gson.toJson(memberRepository.findById(id))
-        return ResponseEntity(payloadStr, HttpStatus.OK)
-    }
 
     @PostMapping("/buy")
     fun buy(@RequestBody dto: Dto): ResponseEntity<*>? {
         var fullPrice = 0
-        if (!memberRepository.existsByMemberName(dto.memberName)) {
-            return ResponseEntity.status(401).build<Any>()
-        }
+
         try {
             val cheque: Dto? = restService.postBuy(dto)
 
@@ -90,5 +82,12 @@ class MainController @Autowired constructor(
             return ResponseEntity<Any>(exception.statusCode)
         }
         return ResponseEntity.ok().build<Any>()
+    }
+
+    @GetMapping("/getMember")
+    fun getUser(@RequestParam id: Int): ResponseEntity<String?>? {
+        val gson = GsonBuilder().create()
+        val payloadStr = gson.toJson(memberRepository.findById(id))
+        return ResponseEntity(payloadStr, HttpStatus.OK)
     }
 }

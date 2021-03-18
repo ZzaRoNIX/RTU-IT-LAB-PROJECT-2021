@@ -4,6 +4,7 @@ services:
     build:
       context: .
       dockerfile: ./vpn/Dockerfile
+    container_name: vpn
     ports:
       - 8080:8080
 
@@ -12,6 +13,7 @@ services:
     build:
       context: .
       dockerfile: ./store/Dockerfile
+    container_name: store
     depends_on:
       - db
     environment:
@@ -22,14 +24,14 @@ services:
     ports:
       - 8082:8082
 
-  wish:
+  blocknot:
     build:
       context: .
       dockerfile: ./blocknot/Dockerfile
     depends_on:
       - db
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/compose-postgres
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/postgres
       - SPRING_DATASOURCE_USERNAME=compose-postgres
       - SPRING_DATASOURCE_PASSWORD=compose-postgres
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
@@ -39,7 +41,7 @@ services:
   db:
     image: 'postgres:13.1-alpine'
     ports:
-      - 5432:5432
+      - 5433:5432
     environment:
       - POSTGRES_USER=compose-postgres
       - POSTGRES_PASSWORD=compose-postgres

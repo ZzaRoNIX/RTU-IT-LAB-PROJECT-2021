@@ -16,8 +16,6 @@ import com.saprikin.store.repository.StoreRepository
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import java.util.*
-import kotlin.collections.HashSet
 
 @RestController
 class MainController(
@@ -27,8 +25,14 @@ class MainController(
     private var chequeHistoryRepository: ChequeHistoryRepository? = null
 ) {
 
+    @PostMapping("/addProduct")
+    fun addPositions(@RequestBody product: ArrayList<Product>) {
+        productRepository?.saveAll(product)
 
-    @PostMapping("/addShop")
+
+    }
+
+    @PostMapping("/addStore")
     fun addShop(
         @RequestParam name: String?,
         @RequestParam address: String?,
@@ -43,24 +47,20 @@ class MainController(
         } else ResponseEntity.status(400).body("Магазин с таким именем уже есть")
     }
 
-    @PostMapping("/addPositions")
-    fun addPositions(@RequestBody product: Iterable<Product>) {
-        productRepository?.saveAll(product)
-
-
-    }
-
-    @GetMapping("/getShopPositions")
-    fun getShopPosition(@RequestParam storeId: Int?): List<Product?>? {
-        return productRepository?.findAllByStoreId(storeId)
-    }
 
     @PostMapping("/buy")
     fun buy(@RequestBody dto: Dto): ResponseEntity<*>? {
         val gson: Gson = GsonBuilder().create()
         val productHistories: ArrayList<ProductHistory> = ArrayList<ProductHistory>()
         val set: MutableSet<String> = HashSet()
-        var builder: ChequeHistory = ChequeHistory(dto.paymentMethod, memberId = dto.memberId,dto.memberName, dto.storeId, dto.category,productHistories)
+        var builder: ChequeHistory = ChequeHistory(
+            dto.paymentMethod,
+            memberId = dto.memberId,
+            dto.memberName,
+            dto.storeId,
+            dto.category,
+            productHistories
+        )
         if (dto.category.isEmpty()) {
             for (row: DtoRows in dto.productHistory) {
                 val product: Product? =
@@ -71,7 +71,7 @@ class MainController(
             }
 
             if (set.size > 1) {
-                builder.category = "Смешанные"
+                builder.category = "smeshannaia"
 
             } else {
                 builder.category = set.stream().iterator().next()
@@ -125,5 +125,11 @@ class MainController(
 
         return ResponseEntity(payloadStr, HttpStatus.OK)
 
+    }
+
+    @GetMapping("/getStoreProduct")
+    fun getShopPosition(@RequestParam storeId: Int?): List<Product?>? {
+
+        return productRepository?.findAllByStoreId(storeId)
     }
 }
