@@ -34,12 +34,6 @@ class MainController @Autowired constructor(
         }
     }
 
-    @GetMapping("/getMember")
-    fun getUser(@RequestParam id: Int): ResponseEntity<String?>? {
-        val gson = GsonBuilder().create()
-        val payloadStr = gson.toJson(memberRepository.findById(id))
-        return ResponseEntity(payloadStr, HttpStatus.OK)
-    }
 
     @PostMapping("/buy")
     fun buy(@RequestBody dto: Dto): ResponseEntity<*>? {
