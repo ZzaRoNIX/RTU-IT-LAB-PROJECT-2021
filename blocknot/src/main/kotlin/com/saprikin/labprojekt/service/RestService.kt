@@ -23,7 +23,7 @@ class RestService(private val restTemplate: RestTemplate) {
         headers["path"] = payLoadStr
         val requestBody: HttpEntity<Dto> = HttpEntity<Dto>(dto, headers)
         val responseEntity: ResponseEntity<Dto> = restTemplate.exchange(
-            "http://localhost:8082/store/buy",
+            "http://localhost:8082/buy",
             HttpMethod.POST,
             requestBody,
             Dto::class.java
